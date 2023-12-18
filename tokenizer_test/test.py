@@ -1,31 +1,14 @@
-import re
-import numpy as np
+# 정렬된 DataFrame에서 'usage' 열의 값을 사용하여 등장 빈도를 계산합니다.
+import pandas as pd
 
-def process_file(input_file_path, output_file_path):
-    with open(input_file_path, 'r') as file:
-        data = file.read()
+sorted_token_df = pd.read_csv('sorted_token_usage.csv')  # CSV 파일을 읽어서 DataFrame을 생성합니다.
 
-    # 로짓 값 추출
-    logits = re.findall(r'logits=tensor\(.*?\)', data)
-    print(len(logits))
-    # 최대값의 인덱스 추출 (무작위 선택)
-    max_indices = []
-    for logit in logits:
-        logit_values = np.fromstring(logit, sep=', ')
-        max_value = np.max(logit_values)
-        # 최대값과 같은 모든 인덱스를 찾음
-        max_indices_candidates = np.where(logit_values == max_value)[0]
-        # 무작위로 하나 선택
-        max_index = np.random.choice(max_indices_candidates)
-        max_indices.append(max_index)
+# 전체 'usage'의 합계를 계산합니다.
+total_usage = sorted_token_df['usage'].sum()
 
-    # 결과를 새 파일에 저장
-    with open(output_file_path, 'w') as file:
-        for index in max_indices:
-            file.write(f'{index}\n')
+# 각 토큰의 등장 빈도를 계산합니다.
+sorted_token_df['frequency'] = sorted_token_df['usage'] / total_usage
 
-# 사용 예시
-input_file_path = 'predictions.txt'  # 입력 파일 경로
-output_file_path = 'max_indices_output.txt'  # 출력 파일 경로
-
-process_file(input_file_path, output_file_path)
+sorted_token_df.to_csv('sorted_token_usage.csv', index=False)  # 결과를 CSV 파일로 저장합니다.
+# 계산된 등장 빈도가 포함된 DataFrame을 확인합니다.
+print(sorted_token_df.head())  # 처음 몇 개의 행을 출력하여 결과 확인
