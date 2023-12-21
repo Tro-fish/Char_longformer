@@ -49,7 +49,7 @@ def process_text_corpus(corpus_path, vocab_path):
 
 # 이 코드는 'text_corpus.txt' 파일과 'kakao_vocab.txt' 파일이 필요합니다.
 # 코드 사용 예시:
-csv_file, oov_rate = process_text_corpus('/Users/waniboyy/VSCODE/Char_longformer/total_corpus.txt', 'selected_tokens.txt')
+csv_file, oov_rate = process_text_corpus('/Users/waniboyy/VSCODE/Char_longformer/total_corpus.txt', 'kakao_vocab.txt')
 print(oov_rate)
 # 이 코드는 'text_corpus.txt' 파일이 없으므로 실행할 수 없습니다.
 # 파일이 제공되면, 이 코드를 사용하여 원하는 결과를 얻을 수 있습니다.
